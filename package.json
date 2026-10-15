@@ -1,0 +1,9 @@
+{
+  "name": "rephrase-studio",
+  "private": true,
+  "workspaces": ["rephrase-studio-core", "rephrase-studio-backend", "rephrase-studio-web"],
+  "scripts": {
+    "build": "npm run build -w rephrase-studio-core && npm run build -w rephrase-studio-backend && npm run build -w rephrase-studio-web"
+  },
+  "engines": { "node": ">=20" }
+}
