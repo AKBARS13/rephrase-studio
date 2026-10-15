@@ -1,0 +1,4 @@
+import{createApp}from"../src/app.js";import{GeminiService,type InteractionClient}from"../src/services/gemini.js";import{readConfig}from"../src/config/env.js";
+const config={...readConfig(process.env),apiKey:undefined,model:"mock-gemini-e2e",port:3001};
+const client:InteractionClient={create:async(params)=>{await new Promise(r=>setTimeout(r,180));const input=String(params.input??"");let text=input.match(/<source>\n([\s\S]*?)\n<\/source>/)?.[1]??"";text=text.replace(/^(?:Selain itu|Lebih lanjut|Perlu dicatat bahwa),?\s*/iu,"").replace(/^Here's the thing:\s*/iu,"").replace(/\bmoving forward\b/giu,"next").replace(/\bdeep dive\b/giu,"analysis").replace(/—/g,",");return{output_text:JSON.stringify({paraphrasedText:text,warnings:[],validation:{meaningPreserved:true,protectedElementsPreserved:true,requiresHumanReview:false,notes:[]}})}}};
+createApp(config,new GeminiService(config,client)).listen(3001,"127.0.0.1",()=>console.log("mock backend 3001"));
